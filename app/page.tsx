@@ -21,9 +21,6 @@ export default function Home() {
           <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto">
             This is a customizable template. Replace all content with your own using the chat interface.
           </p>
-          <Button>
-            Click me
-          </Button>
         </div>
       </section>
     </div>
