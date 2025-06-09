@@ -33,11 +33,11 @@ export default function Home() {
 
       <section className="container mx-auto px-4 pt-24 pb-20">
         <div className="max-w-[800px] mx-auto text-center">
-          <h1 className="text-5xl font-bold tracking-tight lg:text-6xl">
-            Template Starter
+          <h1 className="text-5xl font-bold tracking-tight lg:text-6xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Welcome to Your App
           </h1>
           <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto">
-            This is a customizable template. Replace all content with your own using the chat interface.
+            Build something amazing with modern web technologies. Your journey starts here.
           </p>
           <div className="mt-8">
             <Button 
@@ -64,6 +64,7 @@ export default function Home() {
     </div>
   )
 }
+
 
 
 
