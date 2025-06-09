@@ -27,7 +27,7 @@ export default function Home() {
               size="lg"
               className="px-8 py-3"
             >
-              Click Mee
+              Click Mooo
             </Button>
           </div>
         </div>
