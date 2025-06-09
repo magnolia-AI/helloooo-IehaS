@@ -8,9 +8,18 @@ export default function Home() {
   const { toast } = useToast()
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
   const [globalMousePosition, setGlobalMousePosition] = useState({ x: 0, y: 0 })
+  const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 })
+  const [isClient, setIsClient] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
+    setIsClient(true)
+    
+    // Set initial window size
+    if (typeof window !== 'undefined') {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+    }
+    
     const handleGlobalMouseMove = (e: MouseEvent) => {
       // Global mouse position for background effects
       setGlobalMousePosition({ x: e.clientX, y: e.clientY })
@@ -24,8 +33,20 @@ export default function Home() {
       }
     }
 
-    window.addEventListener('mousemove', handleGlobalMouseMove)
-    return () => window.removeEventListener('mousemove', handleGlobalMouseMove)
+    const handleResize = () => {
+      if (typeof window !== 'undefined') {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+      }
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleGlobalMouseMove)
+      window.addEventListener('resize', handleResize)
+      return () => {
+        window.removeEventListener('mousemove', handleGlobalMouseMove)
+        window.removeEventListener('resize', handleResize)
+      }
+    }
   }, [])
 
   return (
@@ -51,32 +72,34 @@ export default function Home() {
       />
       
       {/* Sparkle effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div 
-          className="absolute w-2 h-2 bg-white rounded-full opacity-60 animate-pulse"
-          style={{
-            left: `${(globalMousePosition.x + 100) % window.innerWidth}px`,
-            top: `${(globalMousePosition.y + 50) % window.innerHeight}px`,
-            animationDelay: '0s'
-          }}
-        />
-        <div 
-          className="absolute w-1 h-1 bg-blue-300 rounded-full opacity-80 animate-ping"
-          style={{
-            left: `${(globalMousePosition.x - 80) % window.innerWidth}px`,
-            top: `${(globalMousePosition.y - 30) % window.innerHeight}px`,
-            animationDelay: '0.5s'
-          }}
-        />
-        <div 
-          className="absolute w-1.5 h-1.5 bg-purple-300 rounded-full opacity-70 animate-pulse"
-          style={{
-            left: `${(globalMousePosition.x + 60) % window.innerWidth}px`,
-            top: `${(globalMousePosition.y + 80) % window.innerHeight}px`,
-            animationDelay: '1s'
-          }}
-        />
-      </div>
+      {isClient && (
+        <div className="fixed inset-0 pointer-events-none">
+          <div 
+            className="absolute w-2 h-2 bg-white rounded-full opacity-60 animate-pulse"
+            style={{
+              left: `${(globalMousePosition.x + 100) % windowSize.width}px`,
+              top: `${(globalMousePosition.y + 50) % windowSize.height}px`,
+              animationDelay: '0s'
+            }}
+          />
+          <div 
+            className="absolute w-1 h-1 bg-blue-300 rounded-full opacity-80 animate-ping"
+            style={{
+              left: `${(globalMousePosition.x - 80) % windowSize.width}px`,
+              top: `${(globalMousePosition.y - 30) % windowSize.height}px`,
+              animationDelay: '0.5s'
+            }}
+          />
+          <div 
+            className="absolute w-1.5 h-1.5 bg-purple-300 rounded-full opacity-70 animate-pulse"
+            style={{
+              left: `${(globalMousePosition.x + 60) % windowSize.width}px`,
+              top: `${(globalMousePosition.y + 80) % windowSize.height}px`,
+              animationDelay: '1s'
+            }}
+          />
+        </div>
+      )}
 
       <section className="container mx-auto px-4 pt-24 pb-20 relative z-10">
         <div className="max-w-[800px] mx-auto text-center">
@@ -133,6 +156,8 @@ export default function Home() {
     </div>
   )
 }
+
+
 
 
 
