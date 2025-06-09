@@ -53,7 +53,7 @@ export default function Home() {
                   background: `radial-gradient(circle 120px at ${mousePosition.x}% ${mousePosition.y}%, 
                     rgba(255, 255, 255, 0.3) 0%, 
                     rgba(255, 255, 255, 0.15) 40%, 
-                    transparent 70%
+                    transparent 30%
                   )`
                 }}
               />
