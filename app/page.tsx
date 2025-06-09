@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useToast } from "@/hooks/use-toast"
+import { useState, useRef, useEffect } from 'react'
 
 {/* 
   TEMPLATE PAGE: Home
@@ -10,6 +11,23 @@ import { useToast } from "@/hooks/use-toast"
 */}
 export default function Home() {
   const { toast } = useToast()
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect()
+        const x = ((e.clientX - rect.left) / rect.width) * 100
+        const y = ((e.clientY - rect.top) / rect.height) * 100
+        setMousePosition({ x, y })
+      }
+    }
+
+    window.addEventListener('mousemove', handleGlobalMouseMove)
+    return () => window.removeEventListener('mousemove', handleGlobalMouseMove)
+  }, [])
+
   return (
     <div className="min-h-full">
 
@@ -21,8 +39,33 @@ export default function Home() {
           <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto">
             This is a customizable template. Replace all content with your own using the chat interface.
           </p>
+          <div className="mt-8">
+            <Button 
+              ref={buttonRef}
+              onClick={() => toast({ title: "Button clicked!", description: "Your shiny button is working!" })}
+              size="lg"
+              className="px-8 py-3 relative overflow-hidden text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
+            >
+              <span className="relative z-10 drop-shadow-sm">Click Me!</span>
+              <div 
+                className="absolute inset-0 opacity-20 transition-all duration-200 pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle 120px at ${mousePosition.x}% ${mousePosition.y}%, 
+                    rgba(255, 255, 255, 0.3) 0%, 
+                    rgba(255, 255, 255, 0.15) 40%, 
+                    transparent 70%
+                  )`
+                }}
+              />
+            </Button>
+          </div>
         </div>
       </section>
     </div>
   )
 }
+
+
+
+
+
