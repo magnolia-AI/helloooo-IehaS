@@ -21,6 +21,15 @@ export default function Home() {
           <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto">
             This is a customizable template. Replace all content with your own using the chat interface.
           </p>
+          <div className="mt-8">
+            <Button 
+              onClick={() => toast({ title: "Button clicked!", description: "Your simple button is working!" })}
+              size="lg"
+              className="px-8 py-3"
+            >
+              Click Me
+            </Button>
+          </div>
         </div>
       </section>
     </div>
