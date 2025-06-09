@@ -25,9 +25,9 @@ export default function Home() {
             <Button 
               onClick={() => toast({ title: "Button clicked!", description: "Your simple button is working!" })}
               size="lg"
-              className="px-8 py-3"
+              className="px-8 py-3 relative overflow-hidden bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700 before:ease-in-out"
             >
-              Click Mooo
+              Click Me!
             </Button>
           </div>
         </div>
@@ -35,3 +35,4 @@ export default function Home() {
     </div>
   )
 }
+
