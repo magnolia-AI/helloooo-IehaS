@@ -70,7 +70,8 @@ export default function Home() {
       description: "There's so much more to discover. Stay tuned for exciting updates!"
     });
   };
-  return <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Mouse follower */}
@@ -174,5 +175,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-    </div>;
+    </div>
+    );
 }
