@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+
 const features = [{
   icon: "⚡",
   title: "Lightning Fast",
@@ -18,6 +19,7 @@ const features = [{
   title: "Easy to Use",
   description: "Intuitive design and user-friendly interface make it simple for anyone to get started and achieve their goals."
 }];
+
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({
     x: 0,
@@ -65,34 +67,35 @@ export default function Home() {
       description: "More information will be available soon. Stay tuned!"
     });
   };
-  return <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Mouse follower */}
         <div className="absolute w-96 h-96 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl transition-all duration-1000 ease-out" style={{
-        left: mousePosition.x - 192,
-        top: mousePosition.y - 192
-      }} />
+          left: mousePosition.x - 192,
+          top: mousePosition.y - 192
+        }} />
 
         {/* Floating sparkles */}
         {sparkles.map(sparkle => <div key={sparkle.id} className="absolute text-2xl animate-pulse" style={{
-        left: sparkle.x,
-        top: sparkle.y,
-        animationDelay: 
-      }}>
+          left: sparkle.x,
+          top: sparkle.y,
+          animationDelay: `${sparkle.delay}s`
+        }}>
           ✨
         </div>)}
 
         {/* Geometric shapes */}
         <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-pink-400/30 to-purple-400/30 rounded-full animate-bounce" style={{
-        animationDuration: '3s'
-      }} />
+          animationDuration: '3s'
+        }} />
         <div className="absolute bottom-20 right-20 w-24 h-24 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-lg rotate-45 animate-spin" style={{
-        animationDuration: '8s'
-      }} />
+          animationDuration: '8s'
+        }} />
         <div className="absolute top-1/2 left-10 w-16 h-16 bg-gradient-to-br from-yellow-400/30 to-orange-400/30 rounded-full animate-ping" style={{
-        animationDuration: '4s'
-      }} />
+          animationDuration: '4s'
+        }} />
       </div>
 
       <div className="relative z-10">
@@ -106,7 +109,7 @@ export default function Home() {
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent leading-tight">
-              Welcome o this 1
+              Welcome to
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -169,5 +172,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-    </div>;
+    </div>
+  );
 }
