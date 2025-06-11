@@ -5,42 +5,48 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-
-const features = [
-  {
-    icon: "⚡",
-    title: "Lightning Fast",
-    description: "Experience blazing fast performance with our optimized platform built for speed and efficiency."
-  },
-  {
-    icon: "🔒",
-    title: "Secure & Reliable",
-    description: "Your data is protected with enterprise-grade security and 99.9% uptime guarantee."
-  },
-  {
-    icon: "🎨",
-    title: "Beautiful Design",
-    description: "Enjoy a stunning, intuitive interface that makes every interaction a pleasure."
-  }
-];
-
+const features = [{
+  icon: "⚡",
+  title: "Lightning Fast",
+  description: "Experience blazing fast performance with our optimized platform built for speed and efficiency."
+}, {
+  icon: "🔒",
+  title: "Secure & Reliable",
+  description: "Your data is protected with enterprise-grade security and 99.9% uptime guarantee."
+}, {
+  icon: "🎨",
+  title: "Beautiful Design",
+  description: "Enjoy a stunning, intuitive interface that makes every interaction a pleasure."
+}];
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [sparkles, setSparkles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>([]);
-  const { toast } = useToast();
-
+  const [mousePosition, setMousePosition] = useState({
+    x: 0,
+    y: 0
+  });
+  const [sparkles, setSparkles] = useState<Array<{
+    id: number;
+    x: number;
+    y: number;
+    delay: number;
+  }>>([]);
+  const {
+    toast
+  } = useToast();
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY
+      });
     };
-
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
-
   useEffect(() => {
     const generateSparkles = () => {
-      const newSparkles = Array.from({ length: 20 }, (_, i) => ({
+      const newSparkles = Array.from({
+        length: 20
+      }, (_, i) => ({
         id: i,
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -48,58 +54,50 @@ export default function Home() {
       }));
       setSparkles(newSparkles);
     };
-
     generateSparkles();
     const interval = setInterval(generateSparkles, 5000);
     return () => clearInterval(interval);
   }, []);
-
   const handleGetStarted = () => {
     toast({
       title: "Welcome aboard! 🎉",
-      description: "Your journey begins now. Let's create something amazing together!",
+      description: "Your journey begins now. Let's create something amazing together!"
     });
   };
-
   const handleLearnMore = () => {
     toast({
       title: "Curious mind! 🤔",
-      description: "There's so much more to discover. Stay tuned for exciting updates!",
+      description: "There's so much more to discover. Stay tuned for exciting updates!"
     });
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
+  return <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Mouse follower */}
-        <div 
-          className="absolute w-96 h-96 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl transition-all duration-1000 ease-out"
-          style={{
-            left: mousePosition.x - 192,
-            top: mousePosition.y - 192,
-          }}
-        />
+        <div className="absolute w-96 h-96 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl transition-all duration-1000 ease-out" style={{
+        left: mousePosition.x - 192,
+        top: mousePosition.y - 192
+      }} />
         
         {/* Floating sparkles */}
-        {sparkles.map((sparkle) => (
-          <div
-            key={sparkle.id}
-            className="absolute text-2xl animate-pulse"
-            style={{
-              left: sparkle.x,
-              top: sparkle.y,
-              animationDelay: `${sparkle.delay}s`,
-            }}
-          >
+        {sparkles.map(sparkle => <div key={sparkle.id} className="absolute text-2xl animate-pulse" style={{
+        left: sparkle.x,
+        top: sparkle.y,
+        animationDelay: 
+      }}>
             ✨
-          </div>
-        ))}
+          </div>)}
         
         {/* Geometric shapes */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-pink-400/30 to-purple-400/30 rounded-full animate-bounce" style={{ animationDuration: '3s' }} />
-        <div className="absolute bottom-20 right-20 w-24 h-24 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-lg rotate-45 animate-spin" style={{ animationDuration: '8s' }} />
-        <div className="absolute top-1/2 left-10 w-16 h-16 bg-gradient-to-br from-yellow-400/30 to-orange-400/30 rounded-full animate-ping" style={{ animationDuration: '4s' }} />
+        <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-pink-400/30 to-purple-400/30 rounded-full animate-bounce" style={{
+        animationDuration: '3s'
+      }} />
+        <div className="absolute bottom-20 right-20 w-24 h-24 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-lg rotate-45 animate-spin" style={{
+        animationDuration: '8s'
+      }} />
+        <div className="absolute top-1/2 left-10 w-16 h-16 bg-gradient-to-br from-yellow-400/30 to-orange-400/30 rounded-full animate-ping" style={{
+        animationDuration: '4s'
+      }} />
       </div>
 
       <div className="relative z-10">
@@ -113,7 +111,7 @@ export default function Home() {
             </div>
             
             <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent leading-tight">
-              Welcome to my main
+              Welcome to
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -121,20 +119,11 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
-                onClick={handleGetStarted}
-              >
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl" onClick={handleGetStarted}>
                 Get Started Today
               </Button>
               
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="px-8 py-4 text-lg font-semibold border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transform hover:scale-105 transition-all duration-200"
-                onClick={handleLearnMore}
-              >
+              <Button variant="outline" size="lg" className="px-8 py-4 text-lg font-semibold border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transform hover:scale-105 transition-all duration-200" onClick={handleLearnMore}>
                 Learn More
               </Button>
             </div>
@@ -149,8 +138,7 @@ export default function Home() {
             </h2>
             
             <div className="grid md:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <Card key={index} className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
+              {features.map((feature, index) => <Card key={index} className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
                   <CardHeader className="text-center pb-4">
                     <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
                       {feature.icon}
@@ -164,8 +152,7 @@ export default function Home() {
                       {feature.description}
                     </CardDescription>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
         </section>
@@ -187,6 +174,5 @@ export default function Home() {
           </div>
         </section>
       </div>
-    </div>
-  );
+    </div>;
 }
