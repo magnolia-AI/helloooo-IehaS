@@ -107,7 +107,7 @@ export default function Home() {
               <Button
                 ref={buttonRef}
                 size="lg"
-                className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+                className=""
                 style={{
                   background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(255,255,255,0.2) 0%, transparent 50%)`
                 }}
