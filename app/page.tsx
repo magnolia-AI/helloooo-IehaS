@@ -1,167 +1,179 @@
-'use client'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { useToast } from "@/hooks/use-toast"
-import { useState, useRef, useEffect } from 'react'
+'use client';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { useToast } from "@/hooks/use-toast";
+import { useState, useRef, useEffect } from 'react';
 
 export default function Home() {
-  const { toast } = useToast()
-  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
-  const [globalMousePosition, setGlobalMousePosition] = useState({ x: 0, y: 0 })
-  const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 })
-  const [isClient, setIsClient] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const { toast } = useToast();
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  const [globalMousePosition, setGlobalMousePosition] = useState({ x: 0, y: 0 });
+  const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
+  const [isClient, setIsClient] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    setIsClient(true)
-    
+    setIsClient(true);
+
     // Set initial window size
     if (typeof window !== 'undefined') {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     }
-    
+
     const handleGlobalMouseMove = (e: MouseEvent) => {
       // Global mouse position for background effects
-      setGlobalMousePosition({ x: e.clientX, y: e.clientY })
-      
+      setGlobalMousePosition({ x: e.clientX, y: e.clientY });
+
       // Button-relative mouse position for button highlight
       if (buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect()
-        const x = ((e.clientX - rect.left) / rect.width) * 100
-        const y = ((e.clientY - rect.top) / rect.height) * 100
-        setMousePosition({ x, y })
+        const rect = buttonRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width * 100;
+        const y = (e.clientY - rect.top) / rect.height * 100;
+        setMousePosition({ x, y });
       }
-    }
+    };
 
     const handleResize = () => {
       if (typeof window !== 'undefined') {
-        setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
       }
-    }
+    };
 
     if (typeof window !== 'undefined') {
-      window.addEventListener('mousemove', handleGlobalMouseMove)
-      window.addEventListener('resize', handleResize)
+      window.addEventListener('mousemove', handleGlobalMouseMove);
+      window.addEventListener('resize', handleResize);
       return () => {
-        window.removeEventListener('mousemove', handleGlobalMouseMove)
-        window.removeEventListener('resize', handleResize)
-      }
+        window.removeEventListener('mousemove', handleGlobalMouseMove);
+        window.removeEventListener('resize', handleResize);
+      };
     }
-  }, [])
+  }, []);
 
   return (
     <div className="min-h-full relative overflow-hidden">
       {/* Animated background with mouse-following gradient */}
-      <div 
+      <div
         className="fixed inset-0 opacity-30 pointer-events-none transition-all duration-300"
         style={{
-          background: `
-            radial-gradient(circle 600px at ${globalMousePosition.x}px ${globalMousePosition.y}px, 
-              rgba(59, 130, 246, 0.15) 0%, 
-              rgba(147, 51, 234, 0.1) 25%, 
-              rgba(236, 72, 153, 0.05) 50%, 
-              transparent 70%
-            ),
-            linear-gradient(45deg, 
-              rgba(59, 130, 246, 0.03) 0%, 
-              rgba(147, 51, 234, 0.03) 50%, 
-              rgba(236, 72, 153, 0.03) 100%
-            )
-          `
+          background: `radial-gradient(600px circle at ${globalMousePosition.x}px ${globalMousePosition.y}px, rgba(29, 78, 216, 0.15), transparent 80%)`
         }}
       />
-      
+
       {/* Sparkle effects */}
       {isClient && (
         <div className="fixed inset-0 pointer-events-none">
-          <div 
+          <div
             className="absolute w-2 h-2 bg-white rounded-full opacity-60 animate-pulse"
             style={{
-              left: `${(globalMousePosition.x + 100) % windowSize.width}px`,
-              top: `${(globalMousePosition.y + 50) % windowSize.height}px`,
+              left: `${(globalMousePosition.x / windowSize.width) * 100}%`,
+              top: `${(globalMousePosition.y / windowSize.height) * 100}%`,
               animationDelay: '0s'
             }}
           />
-          <div 
+
+          <div
             className="absolute w-1 h-1 bg-blue-300 rounded-full opacity-80 animate-ping"
             style={{
-              left: `${(globalMousePosition.x - 80) % windowSize.width}px`,
-              top: `${(globalMousePosition.y - 30) % windowSize.height}px`,
+              left: `${((globalMousePosition.x + 100) / windowSize.width) * 100}%`,
+              top: `${((globalMousePosition.y + 50) / windowSize.height) * 100}%`,
               animationDelay: '0.5s'
             }}
           />
-          <div 
+
+          <div
             className="absolute w-1.5 h-1.5 bg-purple-300 rounded-full opacity-70 animate-pulse"
             style={{
-              left: `${(globalMousePosition.x + 60) % windowSize.width}px`,
-              top: `${(globalMousePosition.y + 80) % windowSize.height}px`,
+              left: `${((globalMousePosition.x - 80) / windowSize.width) * 100}%`,
+              top: `${((globalMousePosition.y - 30) / windowSize.height) * 100}%`,
               animationDelay: '1s'
             }}
           />
         </div>
       )}
 
-      <section className="container mx-auto px-4 pt-24 pb-20 relative z-10">
-        <div className="max-w-[800px] mx-auto text-center">
-          <h1 className="text-5xl font-bold tracking-tight lg:text-6xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse">
-            Welcome to Your App
-          </h1>
-          <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto">
-            Build something amazing with modern web technologies. Your journey starts here.
-          </p>
-          <div className="mt-8">
-            <Button 
-              ref={buttonRef}
-              onClick={() => toast({ title: "✨ Button clicked!", description: "Your ultra-shiny button is working perfectly!" })}
-              size="lg"
-              className="px-8 py-3 relative overflow-hidden text-white font-semibold shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-110 border-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-400 hover:via-purple-400 hover:to-pink-400"
-            >
-              <span className="relative z-20 drop-shadow-lg">✨ Click Me! ✨</span>
-              
-              {/* Main mouse-following highlight */}
-              <div 
-                className="absolute inset-0 opacity-40 transition-all duration-200 pointer-events-none"
+      {/* Main content */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Hero Section */}
+        <section className="flex-1 flex items-center justify-center px-4 py-20">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+              Welcome!
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
+              Experience the future of web applications with beautiful animations and interactive design.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button
+                ref={buttonRef}
+                size="lg"
+                className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
                 style={{
-                  background: `radial-gradient(circle 150px at ${mousePosition.x}% ${mousePosition.y}%, 
-                    rgba(255, 255, 255, 0.6) 0%, 
-                    rgba(255, 255, 255, 0.3) 30%, 
-                    rgba(255, 255, 255, 0.1) 60%, 
-                    transparent 80%
-                  )`
+                  background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(255,255,255,0.2) 0%, transparent 50%)`
                 }}
-              />
-              
-              {/* Secondary glow effect */}
-              <div 
-                className="absolute inset-0 opacity-20 transition-all duration-300 pointer-events-none"
-                style={{
-                  background: `radial-gradient(circle 200px at ${mousePosition.x}% ${mousePosition.y}%, 
-                    rgba(255, 255, 255, 0.4) 0%, 
-                    transparent 70%
-                  )`
+                onClick={() => {
+                  toast({
+                    title: "Welcome!",
+                    description: "Your interactive app is ready to use.",
+                  });
                 }}
-              />
+              >
+                Get Started
+              </Button>
               
-              {/* Animated shimmer overlay */}
-              <div className="absolute inset-0 opacity-30 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 -skew-x-12 animate-pulse" />
-              </div>
-              
-              {/* Border glow */}
-              <div className="absolute inset-0 rounded-md border border-white/20 pointer-events-none" />
-            </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="px-8 py-3 rounded-lg border-2 border-gray-300 hover:border-blue-500 transition-all duration-300"
+              >
+                Learn More
+              </Button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
+              Amazing Features
+            </h2>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl">🚀</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Fast Performance</h3>
+                  <p className="text-gray-600">Built with Next.js 15 for lightning-fast performance and optimal user experience.</p>
+                </CardContent>
+              </Card>
+
+              <Card className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl">✨</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Beautiful Design</h3>
+                  <p className="text-gray-600">Modern UI components with smooth animations and interactive elements.</p>
+                </CardContent>
+              </Card>
+
+              <Card className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl">🎯</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">User Focused</h3>
+                  <p className="text-gray-600">Designed with user experience in mind, featuring intuitive interactions.</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
-  )
+  );
 }
-
-
-
-
-
-
-
-
 
