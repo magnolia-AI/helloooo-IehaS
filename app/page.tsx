@@ -78,7 +78,7 @@ export default function Home() {
         }} />
 
         {/* Floating sparkles */}
-        {sparkles.map(sparkle => <div key={sparkle.id} className="absolute text-2xl animate-pulse" style={{
+        {sparkles.map((sparkle) => <div key={sparkle.id} className="absolute text-2xl animate-pulse" style={{
           left: sparkle.x,
           top: sparkle.y,
           animationDelay: `${sparkle.delay}s`
@@ -109,7 +109,7 @@ export default function Home() {
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent leading-tight">
-              Welcome to
+              Welcome to me
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -172,6 +172,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-    </div>
-  );
+    </div>);
+
 }
