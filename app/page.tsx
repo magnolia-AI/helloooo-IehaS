@@ -2,12 +2,13 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Sparkles, Zap, Shield, Rocket } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Shield, Rocket, Star, Users, Trophy } from 'lucide-react';
 
 export default function Home() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     setIsVisible(true);
@@ -28,12 +29,18 @@ export default function Home() {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
     button.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
       button.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -180,3 +187,6 @@ export default function Home() {
     </div>
   );
 }
+
+
+
