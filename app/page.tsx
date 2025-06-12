@@ -32,7 +32,7 @@ export default function Home() {
     window.addEventListener('mousemove', handleGlobalMouseMove);
 
     return () => {
-      button.removeEventListener('mousemove', handleMouseMove);
+      button.removeEventListener('mouseme', handleMouseMove);
       window.removeEventListener('mousemove', handleGlobalMouseMove);
     };
   }, []);
