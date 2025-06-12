@@ -13,6 +13,8 @@ export default function Home() {
   const [isHovered, setIsHovered] = useState(false)
   const [clickCount, setClickCount] = useState(0)
   const [showConfetti, setShowConfetti] = useState(false)
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+  const [isMounted, setIsMounted] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   
@@ -25,6 +27,22 @@ export default function Home() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   useEffect(() => {
+    setIsMounted(true)
+    if (typeof window !== 'undefined') {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+      
+      const handleResize = () => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+      }
+      
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    
     const handleGlobalMouseMove = (e: MouseEvent) => {
       if (buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect()
@@ -80,51 +98,53 @@ export default function Home() {
       <div className="fixed inset-0 bg-gradient-to-tl from-blue-400 via-green-500 to-yellow-500 opacity-10 animate-pulse" />
       
       {/* Floating Icons */}
-      <div className="fixed inset-0 pointer-events-none">
-        {floatingIcons.map(({ Icon, delay, duration }, index) => (
-          <motion.div
-            key={index}
-            className="absolute text-purple-300 opacity-20"
-            initial={{ 
-              x: Math.random() * window.innerWidth, 
-              y: window.innerHeight + 50,
-              rotate: 0,
-              scale: 0.5
-            }}
-            animate={{ 
-              y: -50,
-              rotate: 360,
-              scale: [0.5, 1, 0.5],
-              x: Math.random() * window.innerWidth
-            }}
-            transition={{ 
-              duration,
-              delay,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          >
-            <Icon size={24} />
-          </motion.div>
-        ))}
-      </div>
+      {isMounted && windowSize.width > 0 && (
+        <div className="fixed inset-0 pointer-events-none">
+          {floatingIcons.map(({ Icon, delay, duration }, index) => (
+            <motion.div
+              key={index}
+              className="absolute text-purple-300 opacity-20"
+              initial={{ 
+                x: Math.random() * windowSize.width, 
+                y: windowSize.height + 50,
+                rotate: 0,
+                scale: 0.5
+              }}
+              animate={{ 
+                y: -50,
+                rotate: 360,
+                scale: [0.5, 1, 0.5],
+                x: Math.random() * windowSize.width
+              }}
+              transition={{ 
+                duration,
+                delay,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              <Icon size={24} />
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Confetti Effect */}
       <AnimatePresence>
-        {showConfetti && (
+        {showConfetti && isMounted && windowSize.width > 0 && (
           <div className="fixed inset-0 pointer-events-none z-50">
             {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-2 h-2 bg-gradient-to-r from-yellow-400 to-pink-500 rounded-full"
                 initial={{ 
-                  x: window.innerWidth / 2, 
-                  y: window.innerHeight / 2,
+                  x: windowSize.width / 2, 
+                  y: windowSize.height / 2,
                   scale: 0
                 }}
                 animate={{ 
-                  x: Math.random() * window.innerWidth,
-                  y: Math.random() * window.innerHeight,
+                  x: Math.random() * windowSize.width,
+                  y: Math.random() * windowSize.height,
                   scale: [0, 1, 0],
                   rotate: 360
                 }}
@@ -285,6 +305,11 @@ export default function Home() {
     </div>
   )
 }
+
+
+
+
+
 
 
 
